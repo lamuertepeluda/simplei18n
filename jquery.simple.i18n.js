@@ -100,10 +100,12 @@
                     }).done(function (dictionary) {
                         gotDictionary(dictionary, def);
                     }).fail(function (xhr, errorString, error) {
-                        throw error;
+                        deferred.reject(error);
                     });
 
-                } else throw error;
+                } else {
+                    deferred.reject(error);
+                }
             });
 
             return def;
