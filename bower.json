@@ -1,0 +1,22 @@
+{
+    "name": "simplei18n",
+    "version": "0.1.0",
+    "authors": [
+    "Vito Macchia <vito.macchia@gmail.com>"
+  ],
+    "description": "a jQuery plugin aimed at simplifying internationalization for web apps and hybrid apps",
+    "main": "jquery.simple.i18n.js",
+    "keywords": [
+    "i18n",
+    "internationalization",
+    "translation"
+  ],
+    "license": "MIT",
+    "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

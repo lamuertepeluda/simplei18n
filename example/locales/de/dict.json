@@ -1,0 +1,21 @@
+{
+    "my": {
+        "app": {
+            "title": "Titel"
+        },
+        "foo": "Hallo, Welt!",
+        "stuff": "Deutschland vor, noch ein Tor"
+    },
+    "li1": {
+        "first": "Erst",
+        "second": "Zweite",
+        "third": {
+            "li": "Dritte",
+            "button": "Taste"
+        }
+    },
+    "baz": {
+        "title": "Einfache Übersetzung",
+        "text": "auf Deutsch"
+    }
+}

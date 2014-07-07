@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Replace Test</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html {
+            font-family: Arial
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="../jquery.simple.i18n.js"></script>
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div>
+        <select id="languages"></select>
+    </div>
+    <div id="container1" data-title="{% my.app.title %}" data-something="a">{% my.foo %}
+        <ul data-role="listview">
+            <li>{% li1.first %}</li>
+            <li>{% li1.second %}</li>
+            <li>{% li1.third.li %} <a>{% li1.third.button %}</a>
+            </li>
+        </ul>
+        <br>
+        <ul data-role="listview">
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+        </ul>{% my.stuff %}</div>
+    <div id="container2">
+        <h2>{% baz.title %}</h2>
+        <p>
+            {% baz.text %}
+        </p>
+    </div>
+</body>
+
+</html>

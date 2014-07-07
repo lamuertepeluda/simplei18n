@@ -1,0 +1,21 @@
+{
+    "my": {
+        "app": {
+            "title": "Title"
+        },
+        "foo": "Hello, world!",
+        "stuff": "go Britain!"
+    },
+    "li1": {
+        "first": "First",
+        "second": "Second",
+        "third": {
+            "li": "Third",
+            "button": "Button"
+        }
+    },
+    "baz": {
+        "title": "Simple translation",
+        "text": "in English"
+    }
+}
