@@ -86,9 +86,7 @@
 
             var def = $.Deferred();
 
-            $.get(vocUrl, {
-                dataType: 'json'
-            }).done(function (dictionary) {
+            $.getJSON(vocUrl, null).done(function (dictionary) {
                 gotDictionary(dictionary, def);
             }).fail(function (xhr, errorString, error) {
                 //Try to understand whats going on
