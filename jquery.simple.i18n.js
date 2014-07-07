@@ -72,7 +72,7 @@
             var me = this;
             var _options = typeof options === 'undefined' ? {} : options;
             var localesBaseUrl = typeof _options.localesBaseUrl === "undefined" ? "locales" : _options.localesBaseUrl;
-            var locale = typeof _options.locale === "undefined" ? navigator.language : _options.locale;
+            var locale = typeof _options.locale === "undefined" ? (navigator.language || navigator.userLanguage).substr(0, 2) : _options.locale;
             var dictName = typeof _options.dictName === "undefined" ? 'dict' : _options.dictName;
             var fallbackLanguage = typeof _options.fallbackLanguageict === "undefined" ? 'en' : _options.fallbackLanguage;
 
