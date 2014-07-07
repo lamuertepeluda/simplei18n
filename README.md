@@ -12,8 +12,8 @@ $('body').translate();
 ```
 
 To translate the whole page, or pass a selector for specific sections. 
+The function returns a [deferred object](http://api.jquery.com/category/deferred-object/) object that may be used to execute a callback once the translation is finished, using its done() method. 
 You may optionally listen to the *translationdone* event, which is emitted once all nodes have been translated.
-
 
 
 ### JSON dictionary

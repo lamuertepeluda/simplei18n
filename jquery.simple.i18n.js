@@ -40,11 +40,12 @@
         }
 
         //method that actually translates the element and its children
-        function _translateElement(element, dict) {
+        function _translateElement(element, dict, deferred) {
             var tokens = element.html().match(tokenRx);
             var count = tokens.length; // + dataTokens;
             if (count === 0) {
                 element.trigger('translationdone');
+                deferred.resolve('translationdone');
             } else {
                 var html = element.html();
                 tokens.forEach(function (tk) {
@@ -53,6 +54,7 @@
                     if (count === 0) {
                         element.html(html);
                         element.trigger('translationdone');
+                        deferred.resolve('translationdone');
                     }
                 });
             }
@@ -78,27 +80,33 @@
 
             var vocUrl = localesBaseUrl + '/' + locale + '/' + dictName + '.json';
 
-            var gotDictionary = function (dictionary) {
-                _translateElement(me, dictionary);
+            var gotDictionary = function (dictionary, deferred) {
+                _translateElement(me, dictionary, deferred);
             };
 
+            var def = $.Deferred();
+
             $.get(vocUrl, {
-                datatType: 'json'
-            }).done(gotDictionary).fail(function (xhr, errorString, error) {
+                dataType: 'json'
+            }).done(function (dictionary) {
+                gotDictionary(dictionary, def);
+            }).fail(function (xhr, errorString, error) {
                 //Try to understand whats going on
                 if (xhr.status === 404) {
                     //try with fallback
                     var vocUrl = localesBaseUrl + '/' + fallbackLanguage + '/' + dictName + '.json';
                     $.get(vocUrl, {
                         datatType: 'json'
-                    }).done(gotDictionary).fail(function (xhr, errorString, error) {
+                    }).done(function (dictionary) {
+                        gotDictionary(dictionary, def);
+                    }).fail(function (xhr, errorString, error) {
                         throw error;
                     });
 
                 } else throw error;
             });
 
-            return this;
+            return def;
         };
 
 
