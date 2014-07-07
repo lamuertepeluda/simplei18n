@@ -88,7 +88,7 @@
                 //Try to understand whats going on
                 if (xhr.status === 404) {
                     //try with fallback
-                    var vocUrl = localesBaseUrl + '/' + _fallbackLanguage + '/' + dictName + '.json';
+                    var vocUrl = localesBaseUrl + '/' + fallbackLanguage + '/' + dictName + '.json';
                     $.get(vocUrl, {
                         datatType: 'json'
                     }).done(gotDictionary).fail(function (xhr, errorString, error) {
