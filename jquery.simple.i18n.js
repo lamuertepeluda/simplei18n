@@ -86,7 +86,7 @@
                     //try with fallback
                     var vocUrl = localesBaseUrl + '/' + fallbackLanguage + '/' + dictName + '.json';
                     $.get(vocUrl, {
-                        datatType: 'json'
+                        dataType: 'json'
                     }).done(function (dictionary) {
                         _dictionary = dictionary;
                     }).fail(function (xhr, errorString, error) {
