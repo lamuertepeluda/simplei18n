@@ -145,7 +145,5 @@
           }
           return value;
         }
-        
-        //Attempt loading dict asap
-        loadDictionary();
+
     }));
