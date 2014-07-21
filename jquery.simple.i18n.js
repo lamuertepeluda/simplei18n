@@ -29,6 +29,14 @@
             }
             return o;
         };
+        
+        $.translateOptions = {
+            localesBaseUrl : 'locales',
+            locale : (navigator.language || navigator.userLanguage).substr(0, 2),
+            dictName : 'dict' ,
+            fallbackLanguage : 'en'
+        };
+        var _dictionary = {};
 
 
         //regular expression for parsing tokens of type {% my.key.here %}
@@ -60,7 +68,39 @@
             }
             return element;
         }
+        
+        function loadDictionary(options){
+            var _options = typeof options === 'undefined' ? {} : options;
+            var localesBaseUrl = typeof _options.localesBaseUrl === "undefined" ? $.translateOptions.localesBaseUrl : _options.localesBaseUrl;
+            var locale = typeof _options.locale === "undefined" ? $.translateOptions.locale : _options.locale;
+            var dictName = typeof _options.dictName === "undefined" ? $.translateOptions.dictName : _options.dictName;
+            var fallbackLanguage = typeof _options.fallbackLanguageict === "undefined" ? $.translateOptions.fallbackLanguage : _options.fallbackLanguage;
+          
+            var dictUrl = localesBaseUrl + '/' + locale + '/' + dictName + '.json';
 
+            return $.getJSON(dictUrl, null).done(function (dictionary){
+              _dictionary = dictionary;
+          }).fail(function (xhr, errorString, error) {
+                //Try to understand whats going on
+                if (xhr.status === 404) {
+                    //try with fallback
+                    var vocUrl = localesBaseUrl + '/' + fallbackLanguage + '/' + dictName + '.json';
+                    $.get(vocUrl, {
+                        datatType: 'json'
+                    }).done(function (dictionary) {
+                        _dictionary = dictionary;
+                    }).fail(function (xhr, errorString, error) {
+                        throw errorString;
+                    });
+
+                } else {
+                    throw errorString;
+                }
+            });
+        }
+        
+        //Use with caution! Undocumented
+        $.fn.reloadTranslationDictionary = loadDictionary;
 
         /**
      * Plugin main method
@@ -73,41 +113,39 @@
         $.fn.translate = function (options) {
             var me = this;
             var _options = typeof options === 'undefined' ? {} : options;
-            var localesBaseUrl = typeof _options.localesBaseUrl === "undefined" ? "locales" : _options.localesBaseUrl;
-            var locale = typeof _options.locale === "undefined" ? (navigator.language || navigator.userLanguage).substr(0, 2) : _options.locale;
-            var dictName = typeof _options.dictName === "undefined" ? 'dict' : _options.dictName;
-            var fallbackLanguage = typeof _options.fallbackLanguageict === "undefined" ? 'en' : _options.fallbackLanguage;
-
-            var vocUrl = localesBaseUrl + '/' + locale + '/' + dictName + '.json';
-
-            var gotDictionary = function (dictionary, deferred) {
-                _translateElement(me, dictionary, deferred);
-            };
+            var localesBaseUrl = typeof _options.localesBaseUrl === "undefined" ? $.translateOptions.localesBaseUrl : _options.localesBaseUrl;
+            var locale = typeof _options.locale === "undefined" ? $.translateOptions.locale : _options.locale;
+            var dictName = typeof _options.dictName === "undefined" ? $.translateOptions.dictName : _options.dictName;
+            var fallbackLanguage = typeof _options.fallbackLanguageict === "undefined" ? $.translateOptions.fallbackLanguage : _options.fallbackLanguage;
 
             var def = $.Deferred();
-
-            $.getJSON(vocUrl, null).done(function (dictionary) {
-                gotDictionary(dictionary, def);
-            }).fail(function (xhr, errorString, error) {
-                //Try to understand whats going on
-                if (xhr.status === 404) {
-                    //try with fallback
-                    var vocUrl = localesBaseUrl + '/' + fallbackLanguage + '/' + dictName + '.json';
-                    $.get(vocUrl, {
-                        datatType: 'json'
-                    }).done(function (dictionary) {
-                        gotDictionary(dictionary, def);
-                    }).fail(function (xhr, errorString, error) {
-                        deferred.reject(error);
-                    });
-
-                } else {
-                    deferred.reject(error);
-                }
-            });
+            
+            if(!$.isEmptyObject( _dictionary )){
+              _translateElement(me, _dictionary, def);
+            }else{
+              //load dict first
+              loadDictionary().then(function(_dictionary){
+                _translateElement(me, _dictionary, def)
+              })
+            }
 
             return def;
         };
-
-
+        
+        /**
+         * Return current dictionary value for given key
+         * Dotted syntax may be used (e.g. path.to.key)
+         */
+        $.translationFor = function(key){
+          var value = "";
+           if(!$.isEmptyObject( _dictionary )){
+             value = _getTranslation(key,_dictionary);
+          }else{
+            value = null;
+          }
+          return value;
+        }
+        
+        //Attempt loading dict asap
+        loadDictionary();
     }));

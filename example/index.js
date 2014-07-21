@@ -34,9 +34,9 @@ $(document).ready(function () {
     });
 */
     try {
-        $('body').translate({
-            locale: locale
-        }).done(function () {
+      $.translateOptions.locale = locale;
+      
+      $('body').translate().done(function () {
             console.log("Translation done!");
 
             $('#container1').prepend(function () {

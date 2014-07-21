@@ -15,6 +15,10 @@ To translate the whole page, or pass a selector for specific sections.
 The function returns a [deferred object](http://api.jquery.com/category/deferred-object/) object that may be used to execute a callback once the translation is finished, using its done() method. 
 You may optionally listen to the *translationdone* event, which is emitted once all nodes have been translated.
 
+To get single translations of keys, use the translationFor method like this:
+```javascript
+  $.translationFor('path.to.my.key');
+```
 
 ### JSON dictionary
 Dictionaries are simple JSON files:
@@ -59,14 +63,16 @@ Will yeld to:
 
 See [example/index.html](example/index.html) for a working example.
 
-## Options
+## Configuration
 
-A few options may be passed to the **translate** method:
+A few options may set into the **$.translateOptions** object:
 
 * fallbackLanguage: ```'en', //fallback language (default 'en')```
 * locale: ```'it', //preferred locale (default = navigator.language)```
 * dictName: ```'dict', //JSON dictionary file name to be put in localesUrl/<locale>/ (default = 'dict') Omit .json```
 * localesBaseUrl: ```'locales' //base url for locales (default = 'locales')```
+
+The same option can be passed to the translate and translationFor methods.
 
 ## License
 
