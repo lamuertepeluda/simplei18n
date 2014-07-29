@@ -40,7 +40,7 @@
 
 
         //regular expression for parsing tokens of type {% my.key.here %}
-        var tokenRx = /(({%\s)\w(\w|\d)+(\.\w(\w|\d)+)*(\s%}))/gim;
+        var tokenRx = /(({%\s)\w(\w|\d)+(\.(\w|\d)+)*(\s%}))/gim;
 
         //get translation for each key, allowing dotted paths such as my.key.in.dict
         function _getTranslation(key, dict) {
